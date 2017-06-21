@@ -257,7 +257,7 @@ listaSumando.subscribe(println(_))
 
 ### First, Last, Skip, Take, Filter
 
- - `last` emite el primer elemento y termina.
+ - `first` emite el primer elemento y termina.
  - `last` emite el último elemento (antes del `onComplete`)
  - `skip(n)` omite los primeros n elementos
  - `take(n)` únicamente emite los primeros n elementos 
