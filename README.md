@@ -300,3 +300,93 @@ s2.onNext("A") // (1, "A")
 s1.onNext(3)
 s2.onNext("B") // (2, "B")
 ```
+
+# Parte 2
+
+### Refactorizando: mouse, clicks y colores
+
+Refactorizar el siguiente código utilizando la librería 
+creada en la parte 1 del TP. Prestar especial atención a la creación
+de los Observables necesarios.
+
+```scala
+import javafx.application.Application
+import javafx.scene.canvas.Canvas
+import javafx.scene.input.{KeyCode, KeyEvent}
+import javafx.scene.paint.Color
+import javafx.scene.{Group, Scene}
+import javafx.stage.Stage
+
+object MouseApp {
+  def main(args: Array[String]) {
+    Application.launch(classOf[MouseApp], args: _*)
+  }
+}
+
+class MouseApp extends Application {
+
+  def start(primaryStage: Stage): Unit = {
+    val root = new Group()
+    var fillColor1 = Color.rgb(0xF0, 0x50, 0x60)
+    var fillColor2 = Color.rgb(0x60, 0xF0, 0x50)
+    var fillColor = fillColor2
+    var diameter = 20
+    primaryStage.setScene(new Scene(root, 800, 600))
+
+    val canvas = new Canvas(800, 600)
+    val gc = canvas.getGraphicsContext2D
+
+    gc.setLineWidth(5)
+
+    primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, { keyEvent: KeyEvent =>
+      if (keyEvent.getCode eq KeyCode.SPACE) {
+        fillColor = fillColor1
+        keyEvent.consume()
+      } else if ((keyEvent.getCode eq KeyCode.Z) && diameter > 10) {
+        diameter -= 2
+      } else if ((keyEvent.getCode eq KeyCode.X) && diameter < 80) {
+        diameter += 2
+      }
+    })
+
+    primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, { keyEvent: KeyEvent =>
+      if (keyEvent.getCode eq KeyCode.SPACE) {
+        fillColor = fillColor2
+        keyEvent.consume()
+      }
+    })
+
+    root.getChildren.add(canvas)
+
+    canvas.setOnMouseDragged { event =>
+      gc.setFill(fillColor)
+      gc.fillOval(event.getSceneX, event.getSceneY, diameter, diameter)
+    }
+
+    primaryStage.show()
+  }
+}
+```
+
+## Preguntas
+
+ - ¿Qué observable deberíamos crear para poder variar el color
+según va pasando el tiempo? 
+ - ¿Cómo podríamos implementar un deshacer (undo)?
+ - Si movemos el mouse muy rápido no tenemos un trazo contínuo, 
+ ¿Cómo implementaría una interpolación que muestre el trazo contínuo?
+ - ¿Qué deberíamos agregar para poder comenzar a dibujar presionando 
+ `Shift` en lugar de haciendo click (permitiendo ambas cosas convivir)?
+
+Bonus: implementar alguno de los puntos anteriores. 
+ 
+--- 
+
+### Guías
+ 
+  - [Documentación de JavaFX](http://docs.oracle.com/javase/8/javase-clienttechnologies.htm)
+  - [Introducción a Reactive Programming](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)
+  - Lectura adicional: [Your Mouse is a Database, by Erik Meijer](http://queue.acm.org/detail.cfm?id=2169076)
+  - Lectura adicional: [Mastering observables](https://developer.couchbase.com/documentation/server/3.x/developer/java-2.0/observables.html)
+
+  
