@@ -63,9 +63,9 @@ val o = Observable.create { subscriber =>
       }
       // se completa exitosamente
       subscriber.onCompleted() 
-    } catch (e:Exception) {
+    } catch {
       //si hubo un fallo se emite el error
-      subscriber.onError(e)
+      case e:Exception => subscriber.onError(e)
     }
 }
 
