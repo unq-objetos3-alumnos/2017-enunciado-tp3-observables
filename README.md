@@ -80,12 +80,26 @@ o.subscribe { n =>
 // 4
 ```
 
+Donde el subscribe que recibe un bloquedebería ser una manera corta de escribir:
+
+```
+o.subscribe(new Subscriber[Int] {
+  def onNext(n: Int): Unit = {
+    println(n)
+  }
+  def onError(t: Throwable): Unit = {}
+
+  def onComplete(): Unit = { }
+  
+})
+```
+
 Se debe tener en cuenta que puede haber muchas subscripciones al mismo 
-Observable. Los observables no comienzan a emitir elementos hasta no recibir 
-su primer `subscribe`.
+Observable. **Los observables no comienzan a emitir elementos hasta no recibir 
+su primer `subscribe`**.
 
 La firma del método subscribe debe poder incluir parámetros opcionales que reciban
-callbacks para los eventos de `onCompleted` y `onError`.
+callbacks para los eventos de `onCompleted` y `onError`. 
 
 
 ### From
