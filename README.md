@@ -20,6 +20,27 @@ Si bien en el contexto de este trabajo vamos a tratar con ejemplos
 sincrónicos, la idea es poder extrapolar lo que implementemos a
 casos asincrónicos (concurrentes).
 
+Un Observable basicamente entiende esta interfaz
+
+```scala
+trait Observable[T] {
+
+   def subscribe(observer : (T) => Unit) : Subscription
+
+}
+```
+
+Es decier a un Observable podemos registrarnos para escuchar eventos.
+Eso retorna un objeto de tipo Subscription que luego podemos utilizar para dejar de escuchar (Esto no se pide en los siguientes puntos del TP, simplemente es para entender la idea)
+
+```scala
+trait Subscription {
+
+   def unsubscribe() : Unit
+ 
+}
+```
+
 ## Creación de observables
 
 ### Create
