@@ -30,8 +30,22 @@ trait Observable[T] {
 }
 ```
 
-Es decier a un Observable podemos registrarnos para escuchar eventos.
-Eso retorna un objeto de tipo Subscription que luego podemos utilizar para dejar de escuchar (Esto no se pide en los siguientes puntos del TP, simplemente es para entender la idea)
+Es decir a un Observable podemos registrarnos para escuchar eventos.
+
+NOTA: esta es la forma "corta" de subscribirse, donde sólo nos interesa recibir elementos generados.
+La forma "completa"  sería
+
+```scala
+trait Observable[T] {
+
+  def subscribe(subscriber: Subscriber[T]) : Subscription
+
+}
+```
+
+Donde Subscriber está descripto en la próxima sección. Subscriber permite recibir no sólo los elementos, sino tambin ser notificado cuando hay un error y cuando ya no hay más elementos para generar.
+
+En ambos casos se retorna un objeto de tipo Subscription que luego podemos utilizar para dejar de escuchar (Esto no se pide en los siguientes puntos del TP, simplemente es para entender la idea)
 
 ```scala
 trait Subscription {
