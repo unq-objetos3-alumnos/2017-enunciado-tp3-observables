@@ -189,7 +189,7 @@ infinitas veces si no se especifica.
 
 ```scala
 val listaObservable = Observable.from(1,2,3)
-val listaRepetible = observableList.repeat(3)
+val listaRepetible = listaObservable.repeat(3)
 listaRepetible.subscribe { n =>
   println(s"Hola $n!")
 }
